@@ -1,24 +1,48 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tiranga Games Official Login Page.">
-    <meta name="keywords" content="Tiranga, Tiranga Login, Tiranga Games">
-    <title>Tiranga Games Official</title>
-    <style>
-        body { background: #06122e; color: white; font-family: Arial; text-align: center; padding: 50px 20px; }
-        .header { color: #ffcc00; font-size: 28px; font-weight: bold; margin-bottom: 30px; }
-        .input-box { background: #1a2a4d; border: 1px solid #2a4175; padding: 15px; border-radius: 10px; width: 85%; color: white; margin-bottom: 20px; outline: none; }
-        .login-btn { width: 90%; background: linear-gradient(to right, #ff9933, #ffffff, #138808); border: none; padding: 16px; border-radius: 30px; color: #000; font-weight: bold; font-size: 18px; }
-    </style>
-</head>
-<body>
-    <div class="header">TIRANGA GAMES</div>
-    <h2>Log in</h2>
-    <input type="text" class="input-box" placeholder="Phone Number">
-    <input type="password" class="input-box" placeholder="Password">
-    <br>
-    <button class="login-btn">LOG IN</button>
-</body>
-</html>
+<button class="login-btn" onclick="location.href='https://tirangagames.com/#/register?invitationCode=8750201938'">LOG IN</button>
+
+<div class="game-area">
+    <div class="timer-box">
+        <span>WinGo 30sec</span>
+        <span id="timer" style="color: #ffcc00; font-weight: bold;">00:30</span>
+    </div>
+    
+    <div class="color-btns">
+        <button class="c-btn green" onclick="bet('Green')">Green</button>
+        <button class="c-btn violet" onclick="bet('Violet')">Violet</button>
+        <button class="c-btn red" onclick="bet('Red')">Red</button>
+    </div>
+
+    <div class="num-grid">
+        <div class="num-ball" style="color: #9c27b0;">0</div>
+        <div class="num-ball" style="color: #138808;">1</div>
+        <div class="num-ball" style="color: #ff9933;">2</div>
+        <div class="num-ball" style="color: #138808;">3</div>
+        <div class="num-ball" style="color: #ff9933;">4</div>
+        <div class="num-ball" style="color: #138808;">5</div>
+        <div class="num-ball" style="color: #ff9933;">6</div>
+        <div class="num-ball" style="color: #138808;">7</div>
+        <div class="num-ball" style="color: #ff9933;">8</div>
+        <div class="num-ball" style="color: #138808;">9</div>
+    </div>
+</div>
+
+<script>
+    // Asli jaisa 30 second ka timer chalane ke liye
+    let timeLeft = 30;
+    const timerDisplay = document.getElementById('timer');
+
+    setInterval(() => {
+        if(timeLeft <= 0) {
+            timeLeft = 30; // Reset timer
+        } else {
+            timeLeft--;
+        }
+        let secs = timeLeft < 10 ? '0' + timeLeft : timeLeft;
+        timerDisplay.innerHTML = '00:' + secs;
+    }, 1000);
+
+    function bet(color) {
+        alert(color + " par bet lagane ke liye Login karein!");
+        location.href = 'https://tirangagames.com/';
+    }
+</script>
