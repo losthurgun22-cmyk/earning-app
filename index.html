@@ -1,77 +1,95 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profit Zone - Play & Earn</title>
+    <title>Tiranga Games - Official Earning App</title>
+    <meta name="description" content="Tiranga Games official website. Play Color Prediction, Wingo, and Aviator. Deposit ₹100 to start earning.">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #0b0b0b; color: white; margin: 0; padding: 0; text-align: center; }
-        .header { background: #1db954; padding: 20px; font-size: 24px; font-weight: bold; box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3); }
-        .card { background: #1a1a1a; margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #333; position: relative; }
-        .balance-box { font-size: 40px; color: #1db954; font-weight: bold; }
+        body { font-family: 'Roboto', sans-serif; background-color: #121212; color: #ffffff; margin: 0; text-align: center; }
         
-        /* Game Visuals */
-        .game-preview { width: 100%; height: 120px; background: linear-gradient(45deg, #333, #444); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 10px; border: 2px dashed #555; }
+        /* Tiranga Professional Theme */
+        .header { background: #FF9933; padding: 15px; font-size: 22px; font-weight: bold; color: #000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 100; }
+        .sub-header { background: #ffffff; color: #000; padding: 5px; font-size: 14px; font-weight: bold; border-bottom: 3px solid #138808; }
         
-        .btn { display: block; width: 100%; padding: 15px; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; }
-        .btn-start { background: linear-gradient(to right, #ff4e50, #f9d423); color: black; }
-        .btn-wa { background: #25d366; color: white; text-decoration: none; display: inline-block; width: 90%; }
+        .wallet-card { background: linear-gradient(135deg, #1e1e1e, #2a2a2a); margin: 15px; padding: 25px; border-radius: 20px; border: 1px solid #333; }
+        .bal-amount { font-size: 40px; color: #FF9933; font-weight: bold; margin: 10px 0; }
         
-        /* Popup Styling */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; align-items: center; justify-content: center; }
-        .popup { background: #222; padding: 30px; border-radius: 20px; border: 2px solid #1db954; width: 80%; }
+        /* Game Grid - Like Real Tiranga App */
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .game-box { background: #1a1a1a; padding: 20px; border-radius: 15px; border: 1px solid #444; position: relative; overflow: hidden; }
+        .game-box:active { transform: scale(0.95); }
+        .game-icon { font-size: 35px; margin-bottom: 8px; }
+        .game-name { font-size: 14px; font-weight: bold; color: #ddd; }
+        .hot-tag { position: absolute; top: 0; right: 0; background: red; color: white; font-size: 10px; padding: 2px 8px; border-radius: 0 0 0 10px; }
+
+        .btn-deposit { background: #FF9933; color: #000; width: 90%; padding: 15px; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        /* Popup Lock */
+        .lock-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
+        .lock-box { background: #222; padding: 30px; border-radius: 20px; width: 85%; border: 2px solid #FF9933; }
+        .btn-wa { background: #25D366; color: #fff; display: block; padding: 15px; text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="header">🎮 PROFIT ZONE GAMER 🎮</div>
+    <div class="header">TIRANGA GAMES 🇮🇳</div>
+    <div class="sub-header">Official Gaming & Earning Platform</div>
 
-    <div class="card">
-        <p>Aapka Wallet Balance</p>
-        <div class="balance-box">₹0.00</div>
+    <div class="wallet-card">
+        <p style="margin:0; opacity:0.8;">Total Balance</p>
+        <div class="bal-amount">₹0.00</div>
+        <button class="btn-deposit" onclick="openLock()">RECHARGE (ADD MONEY)</button>
     </div>
 
-    <div class="card">
-        <div class="game-preview">🎡</div>
-        <h3>Lucky Spin Wheel</h3>
-        <p>Jeeto ₹500 tak har spin par!</p>
-        <button class="btn btn-start" onclick="showLock()">START GAME</button>
+    <h3 style="text-align: left; margin-left: 20px; color: #FF9933;">Popular Games</h3>
+
+    <div class="game-grid">
+        <div class="game-box" onclick="openLock()">
+            <div class="hot-tag">HOT</div>
+            <div class="game-icon">🎰</div>
+            <div class="game-name">Wingo 1Min</div>
+        </div>
+        <div class="game-box" onclick="openLock()">
+            <div class="game-icon">🚀</div>
+            <div class="game-name">Aviator</div>
+        </div>
+        <div class="game-box" onclick="openLock()">
+            <div class="game-icon">💣</div>
+            <div class="game-name">Mines</div>
+        </div>
+        <div class="game-box" onclick="openLock()">
+            <div class="game-icon">🐯</div>
+            <div class="game-name">Dragon vs Tiger</div>
+        </div>
+        <div class="game-box" onclick="openLock()">
+            <div class="game-icon">🎡</div>
+            <div class="game-name">Color Prediction</div>
+        </div>
+        <div class="game-box" onclick="openLock()">
+            <div class="game-icon">🎲</div>
+            <div class="game-name">Ludo King</div>
+        </div>
     </div>
 
-    <div class="card">
-        <div class="game-preview">🎲</div>
-        <h3>Dice Roller King</h3>
-        <p>Number guess karo aur Paisa Double!</p>
-        <button class="btn btn-start" onclick="showLock()">START GAME</button>
-    </div>
-
-    <div class="card">
-        <div class="game-preview">🃏</div>
-        <h3>Scratch & Win</h3>
-        <p>Daily Jackpot Scratch Cards!</p>
-        <button class="btn btn-start" onclick="showLock()">START GAME</button>
-    </div>
-
-    <div id="lockScreen" class="overlay">
-        <div class="popup">
-            <h2 style="color: #ff4e50;">⚠️ Account Inactive!</h2>
-            <p>Game shuru karne ke liye pehle <b>₹100</b> ka recharge (Deposit) karna compulsory hai.</p>
-            <hr style="border: 0.5px solid #444;">
-            <p>UPI ID: <b style="color:#1db954;">8750201938@fam</b></p>
-            <a href="https://wa.me/918750201938?text=Sir%20maine%20100%20ka%20deposit%20kiya%20hai" class="btn btn-wa">Deposit Karke Screenshot Bhejein</a>
-            <button onclick="closeLock()" style="background:none; color:#777; border:none; margin-top:10px;">Baad mein karunga</button>
+    <div id="lock" class="lock-overlay">
+        <div class="lock-box">
+            <h2 style="color:#FF9933; margin-top:0;">⚠️ Recharge Required</h2>
+            <p>Sare games khelne ke liye kam se kam <b>₹100</b> ka recharge karna hoga.</p>
+            <div style="background:#333; padding:10px; border-radius:10px; margin:15px 0;">
+                <p style="margin:0; font-size:12px;">UPI ID (Copy Karein):</p>
+                <b style="color:#FF9933;">8750201938@fam</b>
+            </div>
+            <a href="https://wa.me/918750201938?text=Sir%20maine%20deposit%20kiya%20hai" class="btn-wa">WhatsApp Support (Deposit Now)</a>
+            <button onclick="closeLock()" style="background:none; border:none; color:#777; margin-top:15px;">Close</button>
         </div>
     </div>
 
     <script>
-        function showLock() {
-            document.getElementById('lockScreen').style.display = 'flex';
-        }
-        function closeLock() {
-            document.getElementById('lockScreen').style.display = 'none';
-        }
+        function openLock() { document.getElementById('lock').style.display = 'flex'; }
+        function closeLock() { document.getElementById('lock').style.display = 'none'; }
     </script>
 
 </body>
 </html>
-
