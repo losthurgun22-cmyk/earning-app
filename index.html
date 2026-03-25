@@ -3,138 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tiranga Login - Official Tiranga Games</title>
-    <meta name="description" content="Tiranga Login - Welcome to our famous world. Official Tiranga login safe zone.">
-    
+    <title>Tiranga Login - Official</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --bg-dark: #06122e; --card-blue: #152b5d; --gold: #ffcc00; --bright-blue: #4facfe; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); color: white; padding-bottom: 110px; }
+        :root { --bg-dark: #06122e; --card-blue: #152b5d; --gold: #ffcc00; --bright-blue: #4facfe; --input-bg: #1a2a4d; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
+        body { background-color: var(--bg-dark); color: white; overflow-x: hidden; }
 
-        /* Top Header */
-        .header { background: var(--card-blue); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a4175; }
-        .logo { width: 100px; }
+        /* Login Screen Style (As per 1000015819.jpg) */
+        #login-page { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
+        .login-header { width: 100%; padding: 20px; text-align: left; font-size: 24px; font-weight: bold; }
+        .login-container { width: 90%; margin-top: 20px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #8a9fc7; font-size: 14px; }
+        .input-field { width: 100%; background: var(--input-bg); border: 1px solid #2a4175; padding: 15px; border-radius: 10px; color: white; outline: none; }
+        .login-btn { width: 100%; background: linear-gradient(to right, #3a61a8, #4facfe); border: none; padding: 15px; border-radius: 30px; color: white; font-weight: bold; font-size: 16px; margin-top: 20px; cursor: pointer; }
+        .reg-link { margin-top: 20px; text-align: center; font-size: 14px; color: #8a9fc7; }
+        .reg-link span { color: var(--gold); font-weight: bold; cursor: pointer; }
 
-        /* Banner */
-        .banner { width: 94%; margin: 15px auto; border-radius: 15px; overflow: hidden; border: 1px solid #3a61a8; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .banner img { width: 100%; display: block; }
-
-        /* Marquee / Notification */
-        .news-bar { background: #1a2a4d; padding: 8px 15px; font-size: 12px; display: flex; align-items: center; gap: 10px; color: #8a9fc7; margin-bottom: 10px; }
-
-        /* Game Grid Sections */
-        .section-label { padding: 10px 15px; font-size: 15px; font-weight: bold; color: var(--gold); display: flex; align-items: center; gap: 8px; }
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; }
-        .game-card { background: var(--card-blue); border-radius: 15px; height: 110px; padding: 10px; border: 1px solid #2a4175; display: flex; align-items: flex-end; font-weight: bold; background-size: cover; background-position: center; }
+        /* Main App Interface (Initially Hidden) */
+        #main-app { display: none; padding-bottom: 100px; }
+        .header { background: var(--card-blue); padding: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #2a4175; }
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
+        .game-card { background: var(--card-blue); border-radius: 12px; height: 110px; border: 1px solid #2a4175; background-size: cover; cursor: pointer; }
         
-        /* Icons background from photos */
-        .lottery { background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7)), url('https://i.imgur.com/vH9Z6XF.png'); }
-        .casino { background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7)), url('https://i.imgur.com/S9S2w7F.png'); }
-        .slots { background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7)), url('https://i.imgur.com/R3pZf6l.png'); }
-        .sports { background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7)), url('https://i.imgur.com/8N4Nn6Y.png'); }
+        /* Fixed Images */
+        .w-wingo { background-image: url('https://i.imgur.com/8N4Nn6Y.png'); }
+        .w-slots { background-image: url('https://i.imgur.com/R3pZf6l.png'); }
 
-        /* Recommendations (Aviator/Vortex) */
-        .rec-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 15px; }
-        .rec-box { background: #1a2a4d; border-radius: 12px; height: 140px; border: 1px solid #334a7a; overflow: hidden; position: relative; }
-        .rec-box img { width: 100%; height: 100%; object-fit: cover; }
-        .rec-name { position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.7); font-size: 10px; text-align: center; padding: 5px; color: var(--gold); }
+        /* Spin Wheel */
+        .spin-float { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); text-align: center; }
+        .wheel-img { width: 80px; height: 80px; background: url('https://i.imgur.com/8S9Z8fL.png') no-repeat center; background-size: contain; animation: spin 5s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Spin Wheel (Floating) */
-        .spin-float { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); z-index: 1000; cursor: pointer; }
-        .wheel-img { width: 85px; height: 85px; animation: spin-anim 4s linear infinite; }
-        .wheel-text { background: #ff4757; color: white; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: -15px; position: relative; border: 2px solid var(--bg-dark); }
-        @keyframes spin-anim { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* Extra First Deposit Bonus Popup (Screenshot 1000015822) */
-        #bonusPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 5000; justify-content: center; align-items: center; }
-        .bonus-card { background: var(--card-blue); width: 90%; border-radius: 25px; border: 1px solid var(--gold); overflow: hidden; }
-        .bonus-head { background: #1e3c72; padding: 15px; text-align: center; font-weight: bold; color: var(--gold); border-bottom: 1px solid #2a4175; }
-        .bonus-item { background: #0b1d42; margin: 10px; padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--bright-blue); }
-        .bonus-info { font-size: 14px; }
-        .bonus-val { color: var(--gold); font-weight: bold; }
-        .verify-btn { background: #28a745; color: white; border: none; width: 90%; padding: 15px; border-radius: 30px; font-weight: bold; margin: 15px auto; display: block; }
-
-        /* Bottom Nav */
-        .footer-nav { position: fixed; bottom: 0; width: 100%; background: var(--card-blue); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #2a4175; z-index: 2000; }
-        .nav-item { text-align: center; color: #8a9fc7; text-decoration: none; font-size: 11px; }
-        .nav-item i { font-size: 24px; margin-bottom: 5px; display: block; }
-        .nav-item.active { color: var(--gold); }
+        /* Popup */
+        #verifyPopup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; justify-content: center; align-items: center; }
+        .popup-card { background: var(--card-blue); width: 85%; border-radius: 20px; padding: 20px; text-align: center; border: 1px solid var(--gold); }
     </style>
 </head>
-<body onload="checkPopup()">
+<body>
 
-    <div class="header">
-        <div style="font-size: 22px; font-weight: 900; color: #fff; font-style: italic;">Tiranga</div>
-        <div style="background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 15px; font-size: 12px;">🇮🇳 English</div>
-    </div>
-
-    <div class="banner">
-        <img src="https://i.imgur.com/8N4Nn6Y.png" alt="Promo">
-    </div>
-
-    <div class="news-bar">
-        <i class="fa-solid fa-volume-high" style="color:var(--bright-blue);"></i>
-        <marquee>Welcome to Tiranga Games! Get 100% bonus on your first deposit...</marquee>
-    </div>
-
-    <div class="section-label"><i class="fa-solid fa-gamepad"></i> Game Categories</div>
-    <div class="game-grid">
-        <div class="game-card lottery" onclick="openPopup()">Lottery</div>
-        <div class="game-card casino" onclick="openPopup()">Casino</div>
-        <div class="game-card slots" onclick="openPopup()">Slots</div>
-        <div class="game-card sports" onclick="openPopup()">Sports</div>
-    </div>
-
-    <div class="section-label"><i class="fa-solid fa-fire"></i> Platform Recommendation</div>
-    <div class="rec-row">
-        <div class="rec-box" onclick="openPopup()"><img src="https://i.imgur.com/vH9Z6XF.png"><div class="rec-name">Aviator</div></div>
-        <div class="rec-box" onclick="openPopup()"><img src="https://i.imgur.com/S9S2w7F.png"><div class="rec-name">Wingo</div></div>
-        <div class="rec-box" onclick="openPopup()"><img src="https://i.imgur.com/R3pZf6l.png"><div class="rec-name">Vortex</div></div>
-    </div>
-
-    <div class="spin-float" onclick="openPopup()">
-        <img src="https://i.imgur.com/8S9Z8fL.png" class="wheel-img">
-        <center><div class="wheel-text">Get ₹500</div></center>
-    </div>
-
-    <div id="bonusPopup">
-        <div class="bonus-card">
-            <div class="bonus-head">Extra first deposit bonus</div>
-            <div style="padding: 10px;">
-                <div class="bonus-item">
-                    <div class="bonus-info">First deposit <span style="color:var(--gold);">100000</span></div>
-                    <div class="bonus-val">+ ₹800.00</div>
-                </div>
-                <div class="bonus-item">
-                    <div class="bonus-info">First deposit <span style="color:var(--gold);">50000</span></div>
-                    <div class="bonus-val">+ ₹500.00</div>
-                </div>
-                <div class="bonus-item">
-                    <div class="bonus-info">First deposit <span style="color:var(--gold);">10000</span></div>
-                    <div class="bonus-val">+ ₹200.00</div>
-                </div>
-                
-                <p style="text-align: center; font-size: 12px; color: #8a9fc7; margin-top: 15px;">Admin UPI: <b style="color:var(--gold);">8750201938@fam</b></p>
-                <button class="verify-btn" onclick="location.href='https://wa.me/918750201938'">Verify Now (WhatsApp)</button>
-                <p style="text-align: center; color: #ff4757; font-size: 13px; cursor: pointer;" onclick="closePopup()">[ Close ]</p>
+    <div id="login-page">
+        <div class="login-header">Log in</div>
+        <div class="login-container">
+            <div class="input-group">
+                <label><i class="fa-solid fa-mobile-screen"></i> Phone Number</label>
+                <input type="text" class="input-field" placeholder="Please enter the phone number">
             </div>
+            <div class="input-group">
+                <label><i class="fa-solid fa-lock"></i> Password</label>
+                <input type="password" class="input-field" placeholder="Please enter the password">
+            </div>
+            <button class="login-btn" onclick="fakeLogin()">Log in</button>
+            <div class="reg-link">Don't have an account? <span onclick="openPopup()">Register</span></div>
         </div>
     </div>
 
-    <div class="footer-nav">
-        <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i>Home</a>
-        <a href="#" class="nav-item" onclick="openPopup()"><i class="fa-solid fa-trophy"></i>Activity</a>
-        <a href="#" class="nav-item" onclick="openPopup()"><i class="fa-solid fa-share-nodes"></i>Promotion</a>
-        <a href="#" class="nav-item" onclick="openPopup()"><i class="fa-solid fa-user"></i>Account</a>
+    <div id="main-app">
+        <div class="header">
+            <div style="font-weight:900; font-style:italic;">Tiranga</div>
+            <div style="font-size:12px;">🇮🇳 English</div>
+        </div>
+        <div style="width:94%; margin:15px auto; border-radius:12px; overflow:hidden;">
+            <img src="https://i.imgur.com/8N4Nn6Y.png" style="width:100%;">
+        </div>
+        <div class="game-grid">
+            <div class="game-card w-wingo" onclick="openPopup()"></div>
+            <div class="game-card w-slots" onclick="openPopup()"></div>
+        </div>
+        <div class="spin-float" onclick="openPopup()">
+            <div class="wheel-img"></div>
+            <div style="background:#ff4757; padding:2px 10px; border-radius:10px; font-size:12px; margin-top:-10px; position:relative;">Get ₹500</div>
+        </div>
+    </div>
+
+    <div id="verifyPopup">
+        <div class="popup-card">
+            <h3 style="color:var(--gold);">Attention!</h3>
+            <p style="margin:15px 0; font-size:14px;">Verify pending. Activation ke liye ₹100 deposit karein.</p>
+            <div style="background:#06122e; padding:10px; border:1px dashed var(--bright-blue); color:var(--gold); font-weight:bold;">
+                UPI: 8750201938@fam
+            </div>
+            <button style="background:#28a745; color:white; border:none; padding:12px; border-radius:25px; width:100%; margin-top:15px; font-weight:bold;" onclick="window.location.href='https://wa.me/918750201938'">Verify Now</button>
+            <p style="margin-top:10px; color:#8a9fc7; font-size:12px; cursor:pointer;" onclick="closePopup()">[ Close ]</p>
+        </div>
     </div>
 
     <script>
-        function openPopup() { document.getElementById('bonusPopup').style.display = 'flex'; }
-        function closePopup() { document.getElementById('bonusPopup').style.display = 'none'; }
-        // Page load par pop-up dikhane ke liye
-        function checkPopup() { setTimeout(openPopup, 2000); }
+        function fakeLogin() {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+        }
+        function openPopup() { document.getElementById('verifyPopup').style.display = 'flex'; }
+        function closePopup() { document.getElementById('verifyPopup').style.display = 'none'; }
     </script>
+
 </body>
 </html>
-
