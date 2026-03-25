@@ -1,58 +1,79 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiranga Games - Login & Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Tiranga Games Official Login & Register</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        body { background-color: #06122e; color: white; padding-bottom: 80px; text-align: center; }
-        
-        .top-nav { background: #152b5d; padding: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #2a4175; }
-        
-        /* Live Winning Scroll */
-        .win-scroll { background: rgba(0,0,0,0.3); padding: 8px; font-size: 11px; color: #25d366; overflow: hidden; white-space: nowrap; margin-bottom: 10px; }
-        .scroll-text { display: inline-block; animation: scroll 20s linear infinite; }
-        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* Mobile-first basic reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #06122e; color: white; height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
 
-        /* Tabs */
-        .tab-container { display: flex; background: #152b5d; margin: 15px; border-radius: 10px; overflow: hidden; border: 1px solid #2a4175; }
-        .tab { flex: 1; padding: 12px; cursor: pointer; font-size: 14px; opacity: 0.6; }
+        /* Top Header (Ditto visual style from screenshot 1) */
+        .top-nav { background: #152b5d; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a4175; position: fixed; top: 0; width: 100%; z-index: 100; padding-top: calc(env(safe-area-inset-top) + 12px); }
+        .logo-text { font-size: 20px; font-weight: 900; color: #4facfe; font-style: italic; }
+
+        /* Tabs (Visually styled as in screenshot 1) */
+        .tab-container { display: flex; background: #152b5d; margin: 15px 15px 10px; border-radius: 10px; overflow: hidden; border: 1px solid #2a4175; margin-top: calc(env(safe-area-inset-top) + 65px); }
+        .tab { flex: 1; padding: 12px; cursor: pointer; font-size: 13px; opacity: 0.6; text-transform: uppercase; border-bottom: 2px solid transparent; text-align: center; color: rgba(255, 255, 255, 0.8); }
         .tab.active { background: #1e3c72; color: #ffcc00; opacity: 1; font-weight: bold; border-bottom: 2px solid #ffcc00; }
 
-        /* Forms */
-        .form-box { background: #1e3c72; margin: 0 15px 15px; padding: 25px; border-radius: 15px; border: 1px solid #3a61a8; }
+        /* Main Content Container (Mobile View with ditto structure from screenshots) */
+        .content-body { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding: 0 15px 15px; }
+
+        /* Form Visual styling adapted from screenshot 1 for Screenshot 2 structure */
+        .form-box { background: #1e3c72; border-radius: 15px; border: 1px solid #3a61a8; padding: 25px; margin-bottom: 15px; }
         .input-group { margin-bottom: 18px; text-align: left; }
-        label { display: block; font-size: 12px; margin-bottom: 8px; color: #8a9fc7; }
-        input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #2a4175; background: #06122e; color: white; outline: none; }
+        label { display: block; font-size: 11px; margin-bottom: 6px; color: rgba(255, 255, 255, 0.6); }
         
-        .forgot-link { display: block; text-align: right; font-size: 11px; color: #ffcc00; text-decoration: none; margin-top: -10px; margin-bottom: 15px; cursor: pointer; }
-        .btn-submit { background: linear-gradient(to right, #ffcc00, #ff9900); color: #000; width: 100%; padding: 15px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        /* Functional Input Fields from Screenshot 2 */
+        .phone-group { display: flex; gap: 10px; align-items: center; }
+        .country-code { padding: 14px 10px; background: #06122e; border: 1px solid #2a4175; border-radius: 10px; color: #ffcc00; font-size: 14px; font-weight: bold; width: 65px; text-align: center; display: flex; align-items: center; justify-content: center; position: relative; }
+        .phone-input { flex: 1; }
+        
+        .pass-group { position: relative; display: flex; align-items: center; }
+        .toggle-password { position: absolute; right: 15px; cursor: pointer; color: rgba(255, 255, 255, 0.5); font-size: 12px; font-weight: bold; text-transform: uppercase; z-index: 10; padding: 5px; }
+        
+        input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #2a4175; background: #06122e; color: white; outline: none; font-size: 14px; }
+        input::placeholder { color: rgba(255, 255, 255, 0.3); }
+        input:focus { border-color: #4facfe; }
 
-        /* Game Preview Grid */
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; padding: 15px; }
-        .game-mini { background: #152b5d; padding: 10px; border-radius: 10px; font-size: 20px; border: 1px solid #2a4175; opacity: 0.7; }
+        /* Special Styling for Invite Code (Screenshot 2 functionality) */
+        .invite-box { border: 1px dashed #ffcc00; color: #ffcc00; font-weight: bold; }
 
-        /* Footer & Float */
-        .support-float { position: fixed; right: 20px; bottom: 100px; background: #ffcc00; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer; z-index: 100; }
-        .footer-nav { position: fixed; bottom: 0; width: 100%; background: #152b5d; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #2a4175; }
-        .nav-item { text-align: center; font-size: 11px; color: #8a9fc7; text-decoration: none; }
+        /* Checkbox from Screenshot 2 */
+        .agreement { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 11px; color: rgba(255, 255, 255, 0.7); }
+        .agreement input[type="checkbox"] { width: auto; padding: 0; margin: 0; }
+        .agreement a { color: #f44336; text-decoration: none; }
 
-        /* Modal Popup */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: #152b5d; width: 100%; max-width: 350px; padding: 30px; border-radius: 20px; border: 1px solid #ffcc00; }
-        .wa-btn { background:#25d366; color:white; display:block; padding:15px; border-radius:10px; text-decoration:none; font-weight:bold; margin-top:20px; }
+        /* Action Buttons visually from screenshot 1 with functionalities from screenshots */
+        .btn-submit { background: linear-gradient(to right, #ffcc00, #ff9900); color: #000; width: 100%; padding: 15px; border: none; border-radius: 30px; font-weight: 1000; cursor: pointer; margin-top: 10px; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2); }
+        
+        /* Forget Password visuals as in screenshot 1 */
+        .forgot-link { display: block; text-align: right; font-size: 11px; color: #ffcc00; text-decoration: none; margin-top: -12px; margin-bottom: 20px; cursor: pointer; }
+
+        /* Footer visually styled as in screenshot 1 (Ditto layout for mobile) */
+        .footer-nav { background: #152b5d; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #2a4175; z-index: 1000; padding-bottom: calc(env(safe-area-inset-bottom) + 12px); width: 100%; }
+        .nav-link { text-align: center; font-size: 10px; color: #8a9fc7; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .nav-icon { font-size: 18px; display: block; margin-bottom: 2px; }
+        .nav-link.active { color: #ffcc00; font-weight: bold; }
+        
+        /* Floating Customer Support Icon visually as in screenshot 1 */
+        .support-float { position: fixed; right: 20px; bottom: calc(env(safe-area-inset-bottom) + 80px); background: #ffcc00; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); cursor: pointer; z-index: 900; border: 2px solid rgba(255, 255, 255, 0.2); }
+
+        /* Visual styling from Screenshot 1 on functional popups */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 2000; align-items: center; justify-content: center; padding: 20px; flex-direction: column; }
+        .modal-content { background: #152b5d; width: 100%; max-width: 350px; padding: 30px; border-radius: 20px; border: 1px solid #ffcc00; text-align: center; }
+        .close-btn { background: none; border: none; color: #777; margin-top: 20px; font-size: 13px; cursor: pointer; }
+        .wa-btn { background: #25d366; color: white; display: block; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; }
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <span style="font-weight: 900; color: #4facfe; font-size: 20px;">TIRANGA GAMES</span>
-        <span style="font-size: 12px; color: #ffcc00;">v1.0.5</span>
-    </div>
-
-    <div class="win-scroll">
-        <div class="scroll-text">🔥 User 91***22 won ₹8,400! | User 77***01 won ₹1,200! | User 88***54 won ₹24,000! | User 92***11 won ₹500!</div>
+        <div style="font-size: 16px; width: 20px; color: rgba(255,255,255,0.7); cursor: pointer; padding: 5px;" onclick="location.reload();">✕</div>
+        <div class="logo-text">TIRANGA</div>
+        <div style="background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 15px; font-size: 11px; color: rgba(255,255,255,0.7);">🇮🇳 English</div>
     </div>
 
     <div class="tab-container">
@@ -60,61 +81,78 @@
         <div id="regTab" class="tab" onclick="switchTab('reg')">REGISTER</div>
     </div>
 
-    <div id="loginForm" class="form-box">
-        <div class="input-group">
-            <label>Mobile Number</label>
-            <input type="number" placeholder="Enter phone number">
+    <div class="content-body">
+        
+        <div id="loginForm" class="form-box">
+            <div class="input-group">
+                <label>Mobile Number</label>
+                <input type="number" placeholder="Please enter the phone number">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <div class="pass-group">
+                    <input type="password" placeholder="Please enter the password" id="loginPass">
+                    <span class="toggle-password" onclick="togglePassword('loginPass', this)">show</span>
+                </div>
+            </div>
+            <span class="forgot-link" onclick="openModal('forgot')">Forgot password?</span>
+            <button class="btn-submit" onclick="openModal('verification_pending')">LOG IN</button>
         </div>
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" placeholder="Enter password">
+
+        <div id="regForm" class="form-box" style="display: none;">
+            <div class="input-group">
+                <label>Mobile Number</label>
+                <div class="phone-group">
+                    <div class="country-code">+91 ⌵</div>
+                    <input type="number" placeholder="Please enter the phone number" class="phone-input">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Set Password</label>
+                <div class="pass-group">
+                    <input type="password" placeholder="Set your password" id="regPass">
+                    <span class="toggle-password" onclick="togglePassword('regPass', this)">show</span>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <div class="pass-group">
+                    <input type="password" placeholder="Confirm password" id="confirmPass">
+                    <span class="toggle-password" onclick="togglePassword('confirmPass', this)">show</span>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Invite Code</label>
+                <input type="text" value="8386713824454" class="invite-box" readonly>
+            </div>
+            <div class="agreement">
+                <input type="checkbox">
+                <span>I have read and agree <a href="#">[Privacy Agreement]</a></span>
+            </div>
+            <button class="btn-submit" onclick="openModal('verification_pending')">Register NOW</button>
         </div>
-        <span class="forgot-link" onclick="openPop('Forgot Password')">Forgot password?</span>
-        <button class="btn-submit" onclick="openPop('Login')">LOG IN</button>
+
     </div>
 
-    <div id="regForm" class="form-box" style="display: none;">
-        <div class="input-group">
-            <label>Mobile Number</label>
-            <input type="number" placeholder="Enter phone number">
-        </div>
-        <div class="input-group">
-            <label>Set Password</label>
-            <input type="password" placeholder="Set password">
-        </div>
-        <div class="input-group">
-            <label>Invite Code</label>
-            <input type="text" value="5589120" style="color: #ffcc00; border: 1px dashed #ffcc00;" readonly>
-        </div>
-        <button class="btn-submit" onclick="openPop('Registration')">REGISTER NOW</button>
-    </div>
-
-    <div class="game-grid">
-        <div class="game-mini">🎰</div>
-        <div class="game-mini">🚀</div>
-        <div class="game-mini">🐯</div>
-        <div class="game-mini">💣</div>
-    </div>
-
-    <div class="support-float" onclick="openPop('Customer Support')">🎧</div>
+    <div class="support-float" onclick="openModal('support')">🎧</div>
 
     <div class="footer-nav">
-        <a href="#" class="nav-item" style="color:#ffcc00;">🏠<br>Home</a>
-        <a href="#" class="nav-item" onclick="openPop('Activity')">🎁<br>Activity</a>
-        <a href="#" class="nav-item" onclick="openPop('Download')">📥<br>App</a>
-        <a href="#" class="nav-item" onclick="openPop('Account')">👤<br>Account</a>
+        <a href="#" class="nav-link"><span class="nav-icon">🏠</span>Home</a>
+        <a href="#" class="nav-link"><span class="nav-icon">🎯</span>Activity</a>
+        <a href="#" class="nav-item nav-link"><span class="nav-icon">📥</span>App</a>
+        <a href="#" class="nav-link active"><span class="nav-icon">👤</span>Account</a>
     </div>
 
-    <div id="pop" class="modal">
+    <div id="modalPop" class="modal">
         <div class="modal-content">
             <h2 id="title" style="color:#ffcc00; margin-bottom: 15px;">Attention!</h2>
-            <p id="msg" style="font-size: 14px; margin-bottom: 20px;">Aapka account verify nahi hai. ₹100 ka activation deposit karein.</p>
-            <div style="background: #06122e; padding: 15px; border-radius: 12px; border: 1px solid #2a4175;">
-                <p style="font-size: 10px; opacity: 0.6;">Pay Admin UPI:</p>
-                <b style="color: #ffcc00; font-size: 18px;">8750201938@fam</b>
+            <p id="msg" style="font-size: 14px; line-height: 1.6; opacity: 0.9;">Aapka verify pending hai. Activation ke liye ₹100 deposit karein.</p>
+            <div style="margin: 20px 0; background: #06122e; padding: 15px; border-radius: 12px; border: 1px solid #2a4175;">
+                <p style="font-size: 10px; opacity: 0.6;">Admin UPI:</p>
+                <b style="font-size: 18px; color: #ffcc00;">8750201938@fam</b>
             </div>
-            <a id="waLink" href="#" class="wa-btn">Contact on WhatsApp</a>
-            <button onclick="closePop()" style="background:none; border:none; color:#777; margin-top:15px;">Cancel</button>
+            <a id="waLink" href="https://wa.me/918750201938" class="wa-btn">Verify Now (WhatsApp)</a>
+            <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
 
@@ -133,19 +171,38 @@
             }
         }
 
-        function openPop(type) {
-            document.getElementById('pop').style.display = 'flex';
-            if(type === 'Forgot Password') {
-                document.getElementById('title').innerText = "Password Reset";
-                document.getElementById('msg').innerText = "Password bhool gaye hain? Admin se naya password maangein.";
+        function togglePassword(inputId, toggle) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.textContent = 'hide';
             } else {
-                document.getElementById('title').innerText = "Action Required";
-                document.getElementById('msg').innerText = "Aapka " + type + " pending hai. ₹100 ka deposit karke active karein.";
+                input.type = 'password';
+                toggle.textContent = 'show';
             }
-            document.getElementById('waLink').href = "https://wa.me/918750201938?text=Sir%20" + type + "%20process%20batao";
         }
-        function closePop() { document.getElementById('pop').style.display = 'none'; }
+
+        function openModal(type) {
+            document.getElementById('modalPop').style.display = 'flex';
+            const title = document.getElementById('title');
+            const msg = document.getElementById('msg');
+            const waLink = document.getElementById('waLink');
+            
+            if (type === 'forgot') {
+                title.innerText = "Forgot Password";
+                msg.innerText = "Password bhool gaye? Activation recharge karke reset karein.";
+                waLink.innerText = "Send Screen (WhatsApp)";
+            } else if (type === 'verification_pending') {
+                title.innerText = "Attention!";
+                msg.innerText = "Aapka verify pending hai. Activation ke liye ₹100 deposit karein.";
+                waLink.innerText = "Verify Now (WhatsApp)";
+            } else if (type === 'support') {
+                title.innerText = "Support";
+                msg.innerText = "24x7 help ke liye WhatsApp karein.";
+                waLink.innerText = "Help Me (WhatsApp)";
+            }
+        }
+        function closeModal() { document.getElementById('modalPop').style.display = 'none'; }
     </script>
 </body>
 </html>
-
